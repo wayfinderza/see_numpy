@@ -5,5 +5,6 @@
 __pycache__/
 *.py[cod]
 
-# Data folder
+# Data folders
 data/
+uploads/
