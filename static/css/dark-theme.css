@@ -225,3 +225,68 @@ h5.heading {
     border-color: #3fca99;
     box-shadow: 0 0 10px #3fca99;
 }
+
+/* Modal Styles */
+.modal {
+    background-color: var(--background-color);
+    color: #ffffff;
+    border: 1px solid #333;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 0.5rem;
+}
+
+.modal-header {
+    background-color: #234665;
+    border-bottom: 1px solid #3fca99;
+    color: #ffffff;
+    font-family: "Source Code Pro", monospace;
+    font-size: 16px;
+}
+
+.modal-body {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 1rem;
+    font-family: "Source Code Pro", monospace;
+    font-size: 14px;
+}
+
+.modal-footer {
+    background-color: #333;
+    border-top: 1px solid #3fca99;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-footer .btn {
+    background-color: #3fca99;
+    color: #000000;
+    border-color: #83e0c2;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+}
+
+.modal-footer .btn:hover {
+    background-color: #83e0c2;
+    color: #000000;
+    border-color: #3fca99;
+}
+
+/* Modal Close Button */
+.modal-header .close {
+    color: #ffffff;
+    text-shadow: none;
+    opacity: 0.8;
+}
+
+.modal-header .close:hover {
+    color: #83e0c2;
+    opacity: 1;
+    text-shadow: 0 0 10px #83e0c2;
+}
+
+/* Modal Overlay */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.85);
+}

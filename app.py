@@ -30,10 +30,15 @@ def upload_file():
         return redirect(url_for("home"))
 
     if file and file.filename.endswith(".npz"):
-        # Save the file to the server
-        file_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+        # Ensure the upload folder exists
+        os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+        
+        # Define the full file path
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], "array.npz")  # Static file name to always overwrite
+        
         try:
-            file.save(file_path)  # Save the uploaded file
+            # Save the uploaded file (overwrites if it already exists)
+            file.save(file_path)
 
             # Load the file and process it
             data = np.load(file_path)
