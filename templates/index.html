@@ -24,18 +24,9 @@
                 {% endfor %}
             </div>
         {% endif %}
-    {% endwith %}   
-    {% if arrays %}
-        <h2>Parsed Arrays</h2>
-        <ul class="list-group">
-            {% for key, details in arrays.items() %}
-                <li class="list-group-item">
-                    <strong>{{ key }}</strong>: Dimensions {{ details.dimensions }}
-                    <br>
-                    Data: {{ details.data }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    {% endwith %}
+    <div> 
+        {% include 'array_display.html' %}
+    </div>
 </div>
 {% endblock %}

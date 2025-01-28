@@ -1,0 +1,13 @@
+<!-- templates/array_display.html -->
+{% if arrays %}
+    <h1>Parsed Array</h1>
+    <ul class="list-group">
+        {% for key, details in arrays.items() %}
+            <li class="list-group-item">
+                <strong>{{ key }}</strong>: Dimensions {{ details.dimensions }}
+                <br>
+                Data: {{ details.data }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

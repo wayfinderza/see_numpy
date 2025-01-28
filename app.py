@@ -1,6 +1,6 @@
 import os
-import numpy as np
 from flask import Flask, request, redirect, url_for, render_template, flash
+from utils.file_processing import load_npz_file
 
 # Create the Flask app
 app = Flask(__name__)
@@ -35,15 +35,8 @@ def upload_file():
         try:
             file.save(file_path)
 
-            # Load the NPZ file and extract arrays
-            data = np.load(file_path)
-            arrays = {
-                key: {
-                    "dimensions": data[key].shape,
-                    "data": data[key].tolist()  # Convert to Python list for JSON compatibility
-                }
-                for key in data.keys()
-            }
+            # Use the utility function to load the NPZ file and extract arrays
+            arrays = load_npz_file(file_path)
 
             flash("File uploaded successfully!")
             return render_template("index.html", arrays=arrays)
@@ -54,5 +47,6 @@ def upload_file():
         flash("Invalid file type. Please upload a valid .npz file.")
 
     return redirect(url_for("home"))
+
 if __name__ == "__main__":
     app.run(debug=True)
