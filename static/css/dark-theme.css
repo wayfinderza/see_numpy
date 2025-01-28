@@ -150,6 +150,16 @@ main {
     opacity: 0.9;
 }
 
+.content-box li, .content-box p {
+    margin-bottom: 0.25rem; /* Adjusts space after each item */
+    line-height: 1.2; /* Reduces line spacing between lines of text */
+}
+
+.content-box ul {
+    margin: 0; /* Removes space around the list */
+    padding: 0; /* Removes extra padding inside the list */
+}
+
 /* Headings */
 h1.heading {
     color: #2971fa !important; /* Light blue */

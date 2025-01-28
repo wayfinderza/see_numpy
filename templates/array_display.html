@@ -3,12 +3,13 @@
         
         <!-- Basic Information Section -->
         <h1 class="heading">Basic Information</h1>
-        <ul>
-            {% for info_key, info_value in details["Basic Information"].items() %}
-                <li>{{ info_key | capitalize }}: {{ info_value }}</li>
-            {% endfor %}
-        </ul>
-
+        <div class="list-group-item">
+            <ul>
+                {% for info_key, info_value in details["Basic Information"].items() %}
+                    <li>{{ info_key | capitalize }}: {{ info_value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
         <!-- Data Section -->
         <h1 class="heading">Data</h1>
         <div>
