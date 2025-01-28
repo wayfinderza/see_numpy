@@ -3,10 +3,39 @@
 {% block title %}SeeNumPy{% endblock %}
 
 {% block head %}
-<!-- Add any custom CSS or scripts for this page -->
+
 {% endblock %}
 
 {% block content %}
-<section>
-</section>
+<div class="container mt-5">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div aria-live="polite" aria-atomic="true" style="position: fixed; bottom: 20px; right: 20px; z-index: 1080;">
+                {% for message in messages %}
+                    <div class="toast show bg-dark text-white" role="alert" aria-live="assertive" aria-atomic="true" style="min-width: 300px;">
+                        <div class="toast-header bg-dark text-white border-bottom-0">
+                            <strong class="mr-auto">Notification</strong>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}   
+    {% if arrays %}
+        <h2>Parsed Arrays</h2>
+        <ul class="list-group">
+            {% for key, details in arrays.items() %}
+                <li class="list-group-item">
+                    <strong>{{ key }}</strong>: Dimensions {{ details.dimensions }}
+                    <br>
+                    Data: {{ details.data }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
 {% endblock %}

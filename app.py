@@ -30,22 +30,23 @@ def upload_file():
         return redirect(url_for("home"))
 
     if file and file.filename.endswith(".npz"):
-        # Ensure the upload folder exists
-        os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-        
-        # Define the full file path
-        file_path = os.path.join(app.config["UPLOAD_FOLDER"], "array.npz")  # Static file name to always overwrite
-        
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], "array.npz")  # Static file name
+
         try:
-            # Save the uploaded file (overwrites if it already exists)
             file.save(file_path)
 
-            # Load the file and process it
+            # Load the NPZ file and extract arrays
             data = np.load(file_path)
-            array_keys = list(data.keys())  # Get all array keys (names) in the NPZ file
-            dimensions = {key: data[key].shape for key in array_keys}  # Get dimensions
+            arrays = {
+                key: {
+                    "dimensions": data[key].shape,
+                    "data": data[key].tolist()  # Convert to Python list for JSON compatibility
+                }
+                for key in data.keys()
+            }
 
-            flash(f"File uploaded successfully! Arrays: {array_keys}, Dimensions: {dimensions}")
+            flash("File uploaded successfully!")
+            return render_template("index.html", arrays=arrays)
         except Exception as e:
             flash(f"Error processing file: {e}")
             return redirect(url_for("home"))
@@ -53,6 +54,5 @@ def upload_file():
         flash("Invalid file type. Please upload a valid .npz file.")
 
     return redirect(url_for("home"))
-
 if __name__ == "__main__":
     app.run(debug=True)
