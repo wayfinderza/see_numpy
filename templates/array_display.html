@@ -1,27 +1,28 @@
 {% if arrays %}
-    <h1 class="heading">Basic Information</h1>
-    <ul class="list-group">
-        {% for key, details in arrays.items() %}
-        <li class="list-group-item">
-            <ul style="list-style-type: none; padding: 0; margin: 0;">
-                {% for detail_key, detail_value in details.items() %}
-                    <li>
-                        {{ detail_key | capitalize }}:
-                        {% if detail_value is iterable and not detail_value|string %}
-                            <div>
-                                {% for item in detail_value %}
-                                    {{ item }}<br>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ detail_value }}
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        </li>        
-        {% endfor %}
-    </ul>
+    {% for key, details in arrays.items() %}
+        
+        <!-- Basic Information Section -->
+        <h1 class="heading">Basic Information</h1>
+        <ul>
+            {% for info_key, info_value in details["Basic Information"].items() %}
+                <li>{{ info_key | capitalize }}: {{ info_value }}</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Data Section -->
+        <h1 class="heading">Data</h1>
+        <div>
+            {% if details["Data"] is iterable and not details["Data"]|string %}
+                <ul>
+                    {% for item in details["Data"] %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>{{ details["Data"] }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
 {% else %}
     <p>No array loaded.</p>
 {% endif %}
