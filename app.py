@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, redirect, url_for, render_template, flash
+from flask import Flask, request, redirect, url_for, render_template, flash, jsonify
 from utils.file_processing import load_npz_file
 
 # Create the Flask app
@@ -47,6 +47,18 @@ def upload_file():
         flash("Invalid file type. Please upload a valid .npz file.")
 
     return redirect(url_for("home"))
+
+@app.route('/process-file', methods=['POST'])
+def process_file():
+    data = request.json
+    array_key = data.get('key')
+    
+    # Your processing logic here
+    # Example: Pretend to process the file
+    if array_key:
+        return jsonify({"message": f"File with key {array_key} processed successfully!"})
+    else:
+        return jsonify({"error": "Array key not provided"}), 400
 
 if __name__ == "__main__":
     app.run(debug=True)

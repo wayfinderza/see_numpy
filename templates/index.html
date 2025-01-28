@@ -27,5 +27,28 @@
     <div> 
         {% include 'array_display.html' %}
     </div>
+    <div> 
+        {% include 'data_display.html' %}
+    </div>
+    <script>
+        // JavaScript function to trigger server-side processing
+        function processFile(arrayKey) {
+            fetch('/process-file', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ key: arrayKey }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle server response (e.g., display results)
+                alert(`File processed: ${data.message}`);
+            })
+            .catch(error => {
+                console.error('Error processing file:', error);
+            });
+        }
+    </script>
 </div>
 {% endblock %}
