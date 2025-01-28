@@ -15,19 +15,19 @@
 <!-- File Upload Modal -->
 <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content" style="background-color: var(--background-color); color: #ffffff; border: 1px solid #333; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);">
-            <div class="modal-header" style="background-color: #234665; border-bottom: 1px solid #3fca99;">
-                <h5 class="modal-title" id="uploadModalLabel" style="color: #ffffff;">Upload NPZ File</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1); opacity: 0.8;"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Upload NPZ File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" style="background-color: #1e1e1e; color: #ffffff;">
+            <div class="modal-body">
                 <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="fileInput" class="form-label" style="color: #ffffff;">Select an NPZ file</label>
-                        <input type="file" class="form-control" id="fileInput" name="file" accept=".npz" required style="background-color: #333; color: #ffffff; border: 1px solid #555;">
+                        <label for="fileInput" class="form-label">Select an NPZ file</label>
+                        <input type="file" class="form-control" id="fileInput" name="file" accept=".npz" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="background-color: #3fca99; color: #000000; border-color: #83e0c2;">Upload</button>
-                    <button type="reset" class="btn btn-secondary" style="background-color: #996391; color: #ffffff; border-color: #996391;">Clear</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
                 </form>
             </div>
         </div>

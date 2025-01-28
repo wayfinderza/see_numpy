@@ -13,8 +13,8 @@ def load_npz_file(file_path):
     data = np.load(file_path)
     arrays = {
         key: {
-            "dimensions": data[key].shape,
-            "data": data[key].tolist()  # Convert to Python list for JSON compatibility
+            "Dimensions": data[key].shape,
+            "Data": data[key].tolist()  # Convert to Python list for JSON compatibility
         }
         for key in data.keys()
     }

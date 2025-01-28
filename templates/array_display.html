@@ -1,13 +1,27 @@
-<!-- templates/array_display.html -->
 {% if arrays %}
-    <h1>Parsed Array</h1>
+    <h1 class="heading">Basic Information</h1>
     <ul class="list-group">
         {% for key, details in arrays.items() %}
-            <li class="list-group-item">
-                <strong>{{ key }}</strong>: Dimensions {{ details.dimensions }}
-                <br>
-                Data: {{ details.data }}
-            </li>
+        <li class="list-group-item">
+            <ul style="list-style-type: none; padding: 0; margin: 0;">
+                {% for detail_key, detail_value in details.items() %}
+                    <li>
+                        {{ detail_key | capitalize }}:
+                        {% if detail_value is iterable and not detail_value|string %}
+                            <div>
+                                {% for item in detail_value %}
+                                    {{ item }}<br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ detail_value }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>        
         {% endfor %}
     </ul>
+{% else %}
+    <p>No array loaded.</p>
 {% endif %}
