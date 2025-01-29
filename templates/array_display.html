@@ -10,18 +10,29 @@
                 {% endfor %}
             </ul>
         </div>
-        <!-- Data Section -->
-        <h1 class="heading">Data</h1>
-        <div>
-            {% if details["Data"] is iterable and not details["Data"]|string %}
-                <ul>
-                    {% for item in details["Data"] %}
-                        <li>{{ item }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>{{ details["Data"] }}</p>
-            {% endif %}
+            
+            <!-- Parsed Data Section -->
+            <h1 class="heading">Parsed Data</h4>
+            <div class="accordion" id="accordion{{ key }}">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{ key }}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ key }}" aria-expanded="true" aria-controls="collapse{{ key }}">
+                            Expand Data
+                        </button>
+                    </h2>
+                    <div id="collapse{{ key }}" class="accordion-collapse collapse" aria-labelledby="heading{{ key }}" data-bs-parent="#accordion{{ key }}">
+                        <div class="accordion-body">
+                            <ul class="list-group">
+                                {% for index, values in details["Parsed Data"].items() %}
+                                    <li class="list-group-item">
+                                        <strong>{{ index }}:</strong> Sum: {{ values[0] }}, Average: {{ values[1] }}, Count: {{ values[2] }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     {% endfor %}
 {% else %}

@@ -2,27 +2,59 @@ import numpy as np
 
 def load_npz_file(file_path):
     """
-    Load an NPZ file and extract arrays with their basic information and data.
+    Load an NPZ file and extract arrays with structured data and aggregation.
     
     Args:
         file_path (str): Path to the NPZ file.
 
     Returns:
-        dict: A dictionary containing basic information and data for each array.
+        dict: A dictionary containing structured data for each array.
     """
     data = np.load(file_path)
-    arrays = {
-        key: {
+    arrays = {}
+    
+    for key in data.keys():
+        array = data[key]
+        
+        if array.ndim == 1:  # Process only 1D arrays for now
+            parsed_data = parse_1d_array(array)
+        else:
+            parsed_data = {"Data": array.tolist()}  # Keep other arrays in list format for now
+        
+        arrays[key] = {
             "Basic Information": {
-                "ndim": data[key].ndim,
-                "shape": data[key].shape,
-                "dtype": str(data[key].dtype),
+                "ndim": array.ndim,
+                "shape": array.shape,
+                "dtype": str(array.dtype),
             },
-            "Data": data[key].tolist()  # Convert to Python list for JSON compatibility
+            "Parsed Data": parsed_data,
         }
-        for key in data.keys()
-    }
+    
     return arrays
+
+def parse_1d_array(array):
+    """
+    Converts a 1D NumPy array into the required dictionary format with aggregations.
+    
+    Args:
+        array (np.ndarray): 1D NumPy array.
+    
+    Returns:
+        dict: A dictionary with indexed data and aggregated statistics.
+    """
+    parsed_dict = {}
+    
+    # Store individual elements
+    for i in range(array.shape[0]):
+        parsed_dict[(i,)] = [str(array[i]), str(array[i]), '1']
+    
+    # Store aggregated values
+    total_sum = array.sum()
+    total_count = array.size
+    total_avg = total_sum / total_count
+    parsed_dict[()] = [str(total_sum), str(total_avg), str(total_count)]
+    
+    return parsed_dict
 
 def validate_npz_file(file_path):
     """
