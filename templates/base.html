@@ -37,14 +37,6 @@
                 {% block content %}{% endblock %}
             </div>
         </main>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                // Initialize all toasts on the page
-                const toastElements = document.querySelectorAll('.toast');
-                toastElements.forEach(toast => {
-                    new bootstrap.Toast(toast).show();
-                });
-            });
-        </script>     
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
