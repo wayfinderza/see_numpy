@@ -40,6 +40,33 @@ html, body {
     text-align: left;
 }
 
+/* Global level (darker background) */
+.level-global {
+    background-color: #343a40; /* Dark gray */
+    color: #ffffff; /* White text */
+    font-weight: bold;
+}
+
+/* Vector level (lighter background) */
+.level-vector {
+    background-color: #495057; /* Medium gray */
+    color: #ffffff; /* White text */
+}
+
+/* Future 2D and 3D styles */
+.level-matrix {
+    background-color: #6c757d; /* Lighter gray */
+}
+
+.level-tensor {
+    background-color: #adb5bd; /* Even lighter gray */
+}
+
+/* Hide rows by default */
+.d-none {
+    display: none !important;
+}
+
 .btn {
     background-color: var(--lighter-color);
 }

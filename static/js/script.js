@@ -1,21 +1,41 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Ensure each value span has proper dataset attributes
-    document.querySelectorAll("span[id^='value-']").forEach(span => {
-        let index = span.id.replace("value-", "");
-        
-        // Get data values from inline attributes (set via Jinja template)
-        let sum = span.getAttribute("data-sum") || "0";
-        let average = span.getAttribute("data-average") || "0";
-        let count = span.getAttribute("data-count") || "0";
+    // Ensure global level is always visible and collapse button is disabled initially
+    const globalRow = document.querySelector(".level-global");
+    const expandButton = document.getElementById("expand-btn");
+    const collapseButton = document.getElementById("collapse-btn");
 
-        // Assign the values to dataset attributes
-        span.dataset.sum = sum;
-        span.dataset.average = average;
-        span.dataset.count = count;
+    let currentLevel = 0; // Tracks the currently visible level
+
+    // Function to expand the next level
+    window.expandNextLevel = function () {
+        const nextLevel = currentLevel + 1;
+        const rowsToExpand = document.querySelectorAll(`[data-level="${nextLevel}"]`);
         
-        // Set initial display to sum (default)
-        span.textContent = sum;
-    });
+        if (rowsToExpand.length > 0) {
+            rowsToExpand.forEach(row => row.classList.remove("d-none"));
+            currentLevel = nextLevel;
+            collapseButton.disabled = false; // Enable collapse button
+        } else {
+            // Disable expand button if no further levels exist
+            expandButton.disabled = true;
+        }
+    };
+
+    // Function to collapse back to the global level
+    window.collapseToGlobal = function () {
+        const rowsToCollapse = document.querySelectorAll(`[data-level="${currentLevel}"]`);
+        rowsToCollapse.forEach(row => row.classList.add("d-none"));
+        
+        currentLevel -= 1;
+
+        // Disable collapse button if we're back at the global level
+        if (currentLevel === 0) {
+            collapseButton.disabled = true;
+        }
+
+        // Re-enable expand button since we can expand again
+        expandButton.disabled = false;
+    };
 
     // Initialize Bootstrap toasts
     const toastElements = document.querySelectorAll('.toast');
