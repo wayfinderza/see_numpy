@@ -1,6 +1,7 @@
 import os
+import numpy as np
 from flask import Flask, request, redirect, url_for, render_template, flash
-from utils.file_processing import load_npz_file
+from utils.file_processing import load_npz_file, validate_npz_file
 
 # Create the Flask app
 app = Flask(__name__)
@@ -35,11 +36,18 @@ def upload_file():
         try:
             file.save(file_path)
 
-            # Use the utility function to load the NPZ file and extract arrays
+            # **NEW: Validate the file before loading**
+            is_valid, error_message = validate_npz_file(file_path)
+            if not is_valid:
+                flash(error_message)
+                return redirect(url_for("home"))
+
+            # Load the file only if validation passes
             arrays = load_npz_file(file_path)
 
             flash("File uploaded successfully!")
             return render_template("index.html", arrays=arrays)
+
         except Exception as e:
             flash(f"Error processing file: {e}")
             return redirect(url_for("home"))
