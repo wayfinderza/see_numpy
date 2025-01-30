@@ -36,6 +36,7 @@
 
         <table class="table table-bordered mt-3">
             <tbody>
+                <!-- Global row: index == () -->
                 <tr class="level-global" data-level="0">
                     <td>()</td>
                     <td>
@@ -48,6 +49,7 @@
                     </td>
                 </tr>
         
+                <!-- 1D rows -->
                 {% for index, values in details["Parsed Data"].items() %}
                     {% if index != () %}
                         {% if index|length == 1 %}
@@ -63,7 +65,21 @@
                                 </td>
                             </tr>
                         {% elif index|length == 2 %}
+                            <!-- 2D rows -->
                             <tr class="level-matrix d-none" data-level="2">
+                                <td>{{ index }}</td>
+                                <td>
+                                    <span id="value-{{ index }}" 
+                                          data-sum="{{ values[0] }}" 
+                                          data-average="{{ values[1] }}" 
+                                          data-count="{{ values[2] }}">
+                                        {{ values[0] }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% elif index|length == 3 %}
+                            <!-- 3D rows -->
+                            <tr class="level-tensor d-none" data-level="3">
                                 <td>{{ index }}</td>
                                 <td>
                                     <span id="value-{{ index }}" 

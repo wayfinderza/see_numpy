@@ -86,5 +86,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Expand all rows on page load
-    window.expandAll();
+    //window.expandAll();
 });
