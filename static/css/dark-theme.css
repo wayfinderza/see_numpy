@@ -29,14 +29,26 @@ html, body {
     line-height: 1.2;
 }
 
+.table {
+    table-layout: fixed; /* Ensures fixed column widths */
+    width: 300px !important; /* Prevents auto-resizing */
+    max-width: 300px !important; /* Prevents stretching */
+}
+
 .table th{
     color: #ffffff !important; /* Slightly opaque white for readability */
+    overflow: hidden; /* Hides overflow content */
+    text-overflow: ellipsis; /* Adds "..." for overflowing text */
+    white-space: nowrap; /* Prevents text from wrapping */
     text-align: left;
 }
 
 .table td {
     background-color: var(--lighter-color) !important;
     color: #ffffff !important; /* Slightly opaque white for readability */
+    overflow: hidden; /* Hides overflow content */
+    text-overflow: ellipsis; /* Adds "..." for overflowing text */
+    white-space: nowrap; /* Prevents text from wrapping */
     text-align: left;
 }
 
