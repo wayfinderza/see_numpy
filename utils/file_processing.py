@@ -15,12 +15,12 @@ def load_npz_file(file_path):
     
     for key in data.keys():
         array = data[key]
-        
-        if array.ndim == 1:  # Process only 1D arrays for now
-            parsed_data = parse_1d_array(array)
+
+        if array.ndim > 3:
+            parsed_data = {"Error": "Only arrays with up to 3 dimensions are supported."}
         else:
-            parsed_data = {"Data": array.tolist()}  # Keep other arrays in list format for now
-        
+            parsed_data = parse_nd_array(array, ())
+
         arrays[key] = {
             "Basic Information": {
                 "ndim": array.ndim,
@@ -32,28 +32,34 @@ def load_npz_file(file_path):
     
     return arrays
 
-def parse_1d_array(array):
+def parse_nd_array(array, index):
     """
-    Converts a 1D NumPy array into the required dictionary format with aggregations.
+    Recursively parses an N-dimensional NumPy array into a structured dictionary format with aggregation.
     
     Args:
-        array (np.ndarray): 1D NumPy array.
-    
+        array (np.ndarray): N-dimensional NumPy array.
+        index (tuple): Current index in the recursion.
+
     Returns:
-        dict: A dictionary with indexed data and aggregated statistics.
+        dict: A dictionary mapping indices to values and aggregations.
     """
     parsed_dict = {}
-    
-    # Store individual elements
-    for i in range(array.shape[0]):
-        parsed_dict[(i,)] = [str(array[i]), str(array[i]), '1']
-    
-    # Store aggregated values
+
+    if array.ndim == 0:  # Base case: scalar value
+        parsed_dict[index] = [str(array.item()), str(array.item()), '1']
+        return parsed_dict
+
+    # Compute aggregation for this level
     total_sum = array.sum()
     total_count = array.size
     total_avg = total_sum / total_count
-    parsed_dict[()] = [str(total_sum), str(total_avg), str(total_count)]
-    
+    parsed_dict[index] = [str(total_sum), str(total_avg), str(total_count)]
+
+    # Iterate over first dimension
+    for i in range(array.shape[0]):
+        sub_index = index + (i,)
+        parsed_dict.update(parse_nd_array(array[i], sub_index))
+
     return parsed_dict
 
 def validate_npz_file(file_path):

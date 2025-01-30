@@ -2,43 +2,81 @@ document.addEventListener("DOMContentLoaded", function () {
     const expandButton = document.getElementById("expand-btn");
     const collapseButton = document.getElementById("collapse-btn");
 
-    let currentLevel = 0; // Tracks the currently visible level
+    let currentLevel = 0; // Tracks the currently expanded level
+    let maxLevel = getMaxLevel(); // Get the max depth from the table
+
+    function getMaxLevel() {
+        let max = 0;
+        document.querySelectorAll("[data-level]").forEach(row => {
+            let level = parseInt(row.getAttribute("data-level"));
+            if (level > max) {
+                max = level;
+            }
+        });
+        return max;
+    }
 
     // Function to expand the next level
     window.expandNextLevel = function () {
         const nextLevel = currentLevel + 1;
         const rowsToExpand = document.querySelectorAll(`[data-level="${nextLevel}"]`);
 
-        // Check if there are rows for the next level
         if (rowsToExpand.length > 0) {
-            rowsToExpand.forEach(row => row.classList.remove("d-none")); // Show the next level
+            rowsToExpand.forEach(row => row.classList.remove("d-none"));
             currentLevel = nextLevel;
-            collapseButton.disabled = false; // Enable collapse button
+            collapseButton.disabled = false;
         }
 
-        // Check if the next level is the last and disable the Expand button if so
-        const furtherLevels = document.querySelectorAll(`[data-level="${nextLevel + 1}"]`);
-        if (furtherLevels.length === 0) {
-            expandButton.disabled = true; // No more levels to expand
+        if (currentLevel >= maxLevel) {
+            expandButton.disabled = true; // Disable expand if no more levels
         }
     };
 
     // Function to collapse back to the global level
     window.collapseToGlobal = function () {
-        const rowsToCollapse = document.querySelectorAll(`[data-level="${currentLevel}"]`);
+        if (currentLevel > 0) {
+            document.querySelectorAll(`[data-level="${currentLevel}"]`).forEach(row => row.classList.add("d-none"));
+            currentLevel -= 1;
+        }
 
-        // Collapse the current level rows
-        rowsToCollapse.forEach(row => row.classList.add("d-none"));
-
-        currentLevel -= 1; // Move back to the previous level
-
-        // Disable the Collapse button if we're back at the global level
         if (currentLevel === 0) {
             collapseButton.disabled = true;
         }
 
-        // Re-enable the Expand button since we can expand again
+        expandButton.disabled = false; // Enable expand since we can expand again
+    };
+
+    // Function to update displayed table values based on selected metric
+    window.updateTable = function (metric) {
+        document.querySelectorAll("span[id^='value-']").forEach(span => {
+            let sum = span.dataset.sum || "0";
+            let average = span.dataset.average || "0";
+            let count = span.dataset.count || "0";
+
+            if (metric === 'sum') {
+                span.textContent = sum;
+            } else if (metric === 'average') {
+                span.textContent = average;
+            } else if (metric === 'count') {
+                span.textContent = count;
+            }
+        });
+    };
+
+    // Function to expand all rows
+    window.expandAll = function () {
+        document.querySelectorAll("tr").forEach(row => row.classList.remove("d-none"));
+        currentLevel = maxLevel;
+        expandButton.disabled = true;
+        collapseButton.disabled = false;
+    };
+
+    // Function to collapse all rows
+    window.collapseAll = function () {
+        document.querySelectorAll("[data-level]").forEach(row => row.classList.add("d-none"));
+        currentLevel = 0;
         expandButton.disabled = false;
+        collapseButton.disabled = true;
     };
 
     // Initialize Bootstrap toasts
@@ -47,34 +85,3 @@ document.addEventListener("DOMContentLoaded", function () {
         new bootstrap.Toast(toast).show();
     });
 });
-
-// Function to update displayed table values based on selected metric
-function updateTable(metric) {
-    document.querySelectorAll("span[id^='value-']").forEach(span => {
-        let sum = span.dataset.sum || "0";
-        let average = span.dataset.average || "0";
-        let count = span.dataset.count || "0";
-
-        if (metric === 'sum') {
-            span.textContent = sum;
-        } else if (metric === 'average') {
-            span.textContent = average;
-        } else if (metric === 'count') {
-            span.textContent = count;
-        }
-    });
-}
-
-// Function to expand all rows
-function expandAll() {
-    document.querySelectorAll("tr").forEach(row => {
-        row.classList.remove("d-none");
-    });
-}
-
-// Function to collapse all rows
-function collapseAll() {
-    document.querySelectorAll("tbody tr").forEach(row => {
-        row.classList.add("d-none");
-    });
-}

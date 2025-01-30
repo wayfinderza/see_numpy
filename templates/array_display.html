@@ -1,5 +1,4 @@
 {% block head %}
-    <!-- Custom CSS Section -->
     <style>
     table.table-bordered thead tr {
         display: none;
@@ -10,7 +9,6 @@
 {% if arrays %}
     {% for key, details in arrays.items() %}
         
-        <!-- Basic Information Section -->
         <h1 class="heading">Basic Information</h1>
         <div class="list-group-item">
             <ul>
@@ -20,12 +18,9 @@
             </ul>
         </div>
             
-        <!-- Parsed Data Section -->
         <h1 class="heading">Parsed Data</h1>
 
-        <!-- Metric Selection and Actions -->
         <div class="d-flex flex-column mb-3">
-            <!-- Metric Selection Button Group -->
             <div class="btn-group mb-2" role="group" aria-label="Select Metric">
                 <input type="radio" class="btn-check" name="global-metric" id="global-sum" autocomplete="off" checked>
                 <label class="btn btn-outline-primary" for="global-sum" onclick="updateTable('sum')">Sum</label>
@@ -37,7 +32,6 @@
                 <label class="btn btn-outline-primary" for="global-count" onclick="updateTable('count')">Count</label>
             </div>
 
-            <!-- Expand/Collapse Buttons -->
             <div class="d-flex justify-content-center mt-3">
                 <button id="expand-btn" class="btn btn-outline-success me-2" onclick="expandNextLevel()">Expand</button>
                 <button id="collapse-btn" class="btn btn-outline-success me-2" onclick="collapseToGlobal()" disabled>Collapse</button>
@@ -52,7 +46,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Global Aggregate Row -->
                 <tr class="level-global" data-level="0">
                     <td>()</td>
                     <td>
@@ -65,20 +58,33 @@
                     </td>
                 </tr>
         
-                <!-- Vector Rows -->
                 {% for index, values in details["Parsed Data"].items() %}
                     {% if index != () %}
-                    <tr class="level-vector d-none" data-level="1">
-                        <td>{{ index }}</td>
-                        <td>
-                            <span id="value-{{ index }}" 
-                                  data-sum="{{ values[0] }}" 
-                                  data-average="{{ values[1] }}" 
-                                  data-count="{{ values[2] }}">
-                                {{ values[0] }}
-                            </span>
-                        </td>
-                    </tr>
+                        {% if index|length == 1 %}
+                            <tr class="level-vector d-none" data-level="1">
+                                <td>{{ index }}</td>
+                                <td>
+                                    <span id="value-{{ index }}" 
+                                          data-sum="{{ values[0] }}" 
+                                          data-average="{{ values[1] }}" 
+                                          data-count="{{ values[2] }}">
+                                        {{ values[0] }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% elif index|length == 2 %}
+                            <tr class="level-matrix d-none" data-level="2">
+                                <td>{{ index }}</td>
+                                <td>
+                                    <span id="value-{{ index }}" 
+                                          data-sum="{{ values[0] }}" 
+                                          data-average="{{ values[1] }}" 
+                                          data-count="{{ values[2] }}">
+                                        {{ values[0] }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
             </tbody>
@@ -89,5 +95,4 @@
     <p>No array loaded.</p>
 {% endif %}
 
-<!-- Link JavaScript -->
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
