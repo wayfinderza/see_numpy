@@ -84,4 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
     toastElements.forEach(toast => {
         new bootstrap.Toast(toast).show();
     });
+
+    // Expand all rows on page load
+    window.expandAll();
 });
