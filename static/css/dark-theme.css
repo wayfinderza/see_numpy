@@ -111,6 +111,7 @@ tr[data-level="3"] td:nth-child(2) {
 
 .btn {
     background-color: var(--lighter-color);
+    color: #fff;
 }
 
 .list-group-item {

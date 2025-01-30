@@ -1,17 +1,15 @@
 import os
 import numpy as np
-from flask import Flask, request, redirect, url_for, render_template, flash
+from flask import Flask, request, redirect, url_for, render_template, flash, jsonify
+# Adjust the import to match your folder structure
 from utils.file_processing import load_npz_file, validate_npz_file
 
-# Create the Flask app
 app = Flask(__name__)
+app.secret_key = "supersecretkey"
 
-# Set upload folder (adjust path as needed)
 UPLOAD_FOLDER = "uploads"
+SAMPLES_FOLDER = os.path.join(app.root_path, "static", "samples")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-app.secret_key = "supersecretkey"  # For flash messages
-
-# Ensure the upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route("/")
@@ -25,24 +23,22 @@ def upload_file():
         return redirect(url_for("home"))
 
     file = request.files["file"]
-
     if file.filename == "":
         flash("No selected file")
         return redirect(url_for("home"))
 
     if file and file.filename.endswith(".npz"):
-        file_path = os.path.join(app.config["UPLOAD_FOLDER"], "array.npz")  # Static file name
-
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], "array.npz")
         try:
             file.save(file_path)
 
-            # **NEW: Validate the file before loading**
+            # Validate
             is_valid, error_message = validate_npz_file(file_path)
             if not is_valid:
                 flash(error_message)
                 return redirect(url_for("home"))
 
-            # Load the file only if validation passes
+            # Parse
             arrays = load_npz_file(file_path)
 
             flash("File uploaded successfully!")
@@ -53,8 +49,41 @@ def upload_file():
             return redirect(url_for("home"))
     else:
         flash("Invalid file type. Please upload a valid .npz file.")
-
     return redirect(url_for("home"))
+
+@app.route("/load_sample/<sample_id>", methods=["GET"])
+def load_sample(sample_id):
+    """
+    Loads a sample NPZ file and processes it just like an uploaded file.
+    """
+    sample_file = f"sample{sample_id}.npz"
+    sample_path = os.path.join(SAMPLES_FOLDER, sample_file)
+
+    if not os.path.exists(sample_path):
+        flash("Sample file not found.")
+        return redirect(url_for("home"))
+
+    upload_path = os.path.join(app.config["UPLOAD_FOLDER"], "array.npz")
+    try:
+        # Copy sample file to uploads directory
+        with open(sample_path, "rb") as src, open(upload_path, "wb") as dst:
+            dst.write(src.read())
+
+        # Validate the copied sample file
+        is_valid, error_message = validate_npz_file(upload_path)
+        if not is_valid:
+            flash(error_message)
+            return redirect(url_for("home"))
+
+        # Parse the arrays using existing logic
+        arrays = load_npz_file(upload_path)
+
+        flash(f"Sample {sample_id} loaded successfully!")
+        return render_template("index.html", arrays=arrays)
+
+    except Exception as e:
+        flash(f"Error loading sample: {e}")
+        return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.run(debug=True)

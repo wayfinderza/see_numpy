@@ -1,6 +1,27 @@
 document.addEventListener("DOMContentLoaded", function () {
     const expandButton = document.getElementById("expand-btn");
     const collapseButton = document.getElementById("collapse-btn");
+    const btnLoadSample1 = document.getElementById("btnLoadSample1");
+    const btnLoadSample2 = document.getElementById("btnLoadSample2");
+
+    // Function to trigger sample loading via form submission
+    function loadSample(sampleId) {
+        const form = document.createElement("form");
+        form.method = "GET";
+        form.action = `/load_sample/${sampleId}`;
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    // Handler for Sample 1
+    btnLoadSample1.addEventListener("click", () => {
+        loadSample(1);
+    });
+
+    // Handler for Sample 2
+    btnLoadSample2.addEventListener("click", () => {
+        loadSample(2);
+    });
 
     let currentLevel = 0; // Tracks the currently expanded level
     let maxLevel = getMaxLevel(); // Get the max depth from the table
@@ -84,7 +105,4 @@ document.addEventListener("DOMContentLoaded", function () {
     toastElements.forEach(toast => {
         new bootstrap.Toast(toast).show();
     });
-
-    // Expand all rows on page load
-    //window.expandAll();
 });

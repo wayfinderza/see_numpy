@@ -2,12 +2,28 @@
     <div class="container-fluid">
         <!-- App Name -->
         <a class="navbar-brand" href="{{ url_for('home') }}">SeeNumPy</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarsExample04" aria-controls="navbarsExample04"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+        <!-- Navbar Buttons -->
         <div class="collapse navbar-collapse" id="navbarsExample04">
+            <!-- Load Sample 1 -->
+            <button class="btn btn-info ms-auto me-2" id="btnLoadSample1">
+                Load Sample 1
+            </button>
+
+            <!-- Load Sample 2 -->
+            <button class="btn btn-info me-2" id="btnLoadSample2">
+                Load Sample 2
+            </button>
+
             <!-- Upload Button -->
-            <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                Upload
+            </button>
         </div>
     </div>
 </nav>
