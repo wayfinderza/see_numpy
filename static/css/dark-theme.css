@@ -31,8 +31,8 @@ html, body {
 
 .table {
     table-layout: fixed; /* Ensures fixed column widths */
-    width: 300px !important; /* Prevents auto-resizing */
-    max-width: 300px !important; /* Prevents stretching */
+    width: 600px !important; /* Prevents auto-resizing */
+    max-width: 600px !important; /* Prevents stretching */
 }
 
 .table th{
@@ -50,6 +50,36 @@ html, body {
     text-overflow: ellipsis; /* Adds "..." for overflowing text */
     white-space: nowrap; /* Prevents text from wrapping */
     text-align: left;
+}
+
+/* Indentation for different levels */
+tr[data-level="1"] td:first-child {
+    padding-left: 1.5em;
+}
+
+tr[data-level="2"] td:first-child {
+    padding-left: 3em;
+}
+
+tr[data-level="3"] td:first-child {
+    padding-left: 4.5em;
+}
+
+/* Different background colors for different levels */
+/* Level 1 => Red */
+tr[data-level="1"] td:nth-child(2) {
+    background-color: red !important;
+}
+
+/* Level 2 => Orange */
+tr[data-level="2"] td:nth-child(2) {
+    background-color: orange !important;
+}
+
+/* Level 3 => Yellow */
+tr[data-level="3"] td:nth-child(2) {
+    background-color: yellow !important;
+    color: black !important;    
 }
 
 /* Global level (darker background) */
