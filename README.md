@@ -34,7 +34,7 @@ Ensure you have **Python 3.13** installed along with the required dependencies.
 ### Steps  
 1. **Clone the Repository**  
    ```powershell
-   git clone <repository_url>
+   git clone https://github.com/wayfinderza/see_numpy
    cd seenumpy
 
 2. **Create a Virtual Environment**
