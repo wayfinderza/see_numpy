@@ -1,16 +1,12 @@
 import os
 import numpy as np
-from flask import Flask, request, redirect, url_for, render_template, flash, jsonify
-# Adjust the import to match your folder structure
+from flask import Flask, request, redirect, url_for, render_template, flash
 from utils.file_processing import load_npz_file, validate_npz_file
+from config import Config  # Import the config class
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
-
-UPLOAD_FOLDER = "uploads"
-SAMPLES_FOLDER = os.path.join(app.root_path, "static", "samples")
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config.from_object(Config)  # Load config from our Config class
+Config.init_app(app) 
 
 @app.route("/")
 def home():
