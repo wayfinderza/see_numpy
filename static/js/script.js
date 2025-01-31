@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (currentLevel >= maxLevel) {
-            expandButton.disabled = true; // Disable expand if no more levels
+            expandButton.disabled = true;
         }
     };
 
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
             collapseButton.disabled = true;
         }
 
-        expandButton.disabled = false; // Enable expand since we can expand again
+        expandButton.disabled = false;
     };
 
     // Function to update displayed table values based on selected metric

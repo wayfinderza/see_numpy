@@ -2,10 +2,10 @@ import os
 import numpy as np
 from flask import Flask, request, redirect, url_for, render_template, flash
 from utils.file_processing import load_npz_file, validate_npz_file
-from config import Config  # Import the config class
+from config import Config
 
 app = Flask(__name__)
-app.config.from_object(Config)  # Load config from our Config class
+app.config.from_object(Config) 
 Config.init_app(app) 
 
 @app.route("/")
@@ -28,17 +28,15 @@ def upload_file():
         try:
             file.save(file_path)
 
-            # Validate
             is_valid, error_message = validate_npz_file(file_path)
             if not is_valid:
                 flash(error_message)
                 return redirect(url_for("home"))
 
-            # Parse
-            arrays = load_npz_file(file_path)
+            dictionary = load_npz_file(file_path)
 
             flash("File uploaded successfully!")
-            return render_template("index.html", arrays=arrays)
+            return render_template("index.html", dictionary=dictionary)
 
         except Exception as e:
             flash(f"Error processing file: {e}")
@@ -53,7 +51,7 @@ def load_sample(sample_id):
     Loads a sample NPZ file and processes it just like an uploaded file.
     """
     sample_file = f"sample{sample_id}.npz"
-    sample_path = os.path.join(SAMPLES_FOLDER, sample_file)
+    sample_path = os.path.join(app.config["SAMPLES_FOLDER"], sample_file)
 
     if not os.path.exists(sample_path):
         flash("Sample file not found.")
@@ -61,21 +59,18 @@ def load_sample(sample_id):
 
     upload_path = os.path.join(app.config["UPLOAD_FOLDER"], "array.npz")
     try:
-        # Copy sample file to uploads directory
         with open(sample_path, "rb") as src, open(upload_path, "wb") as dst:
             dst.write(src.read())
 
-        # Validate the copied sample file
         is_valid, error_message = validate_npz_file(upload_path)
         if not is_valid:
             flash(error_message)
             return redirect(url_for("home"))
 
-        # Parse the arrays using existing logic
-        arrays = load_npz_file(upload_path)
+        dictionary = load_npz_file(upload_path)
 
         flash(f"Sample {sample_id} loaded successfully!")
-        return render_template("index.html", arrays=arrays)
+        return render_template("index.html", dictionary=dictionary)
 
     except Exception as e:
         flash(f"Error loading sample: {e}")
