@@ -1,7 +1,10 @@
 # SeeNumPy - Flexible Array Visualizer  
 
 ## Overview  
-SeeNumPy is a **Flask-based web application** designed to offer **flexible and intuitive visualisations** for **multi-dimensional NumPy arrays**. This project focuses on providing users with a variety of tools and options to explore, customise, and analyse their data interactively. Whether you're working with simple 2D arrays or more complex 3D structures, SeeNumPy enables seamless exploration through a **highly interactive UI**.  
+SeeNumPy is a **Flask-based web application** designed to offer **flexible and intuitive visualisations** for **multi-dimensional NumPy arrays**. This project focuses on providing users with a variety of tools and options to explore, customise, and analyse their data interactively. Whether you're working with simple 2D arrays or more complex 3D structures, SeeNumPy enables seamless exploration through a **highly interactive UI**.
+
+Flask tutorial used: [Web Development with Python Tutorial – Flask & Dynamic Database-Driven Web Apps](https://youtu.be/yBDHkveJUf4?si=UgpIEPk7U34Z6kGq)
+
 
 ## Features  
 
